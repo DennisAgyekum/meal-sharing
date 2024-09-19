@@ -11,21 +11,87 @@ app.use(bodyParser.json());
 
 const apiRouter = express.Router();
 
-// You can delete this route once you add your own routes
-apiRouter.get("/", async (req, res) => {
-  const SHOW_TABLES_QUERY =
-    process.env.DB_CLIENT === "pg"
-      ? "SELECT * FROM pg_catalog.pg_tables;"
-      : "SHOW TABLES;";
-  const tables = await knex.raw(SHOW_TABLES_QUERY);
-  res.json({ tables });
+//handle no data found
+const handleNoData = (req, res, next) => {
+  if (req.data && req.data.length === 0) {
+    return res.status(404).json({ message: "No meals found" });
+  }
+  next(); 
+};
+
+//handle errors
+const errorHandler = (err, req, res, next) => {
+  console.error("Error:", err.message);
+  res.status(err.status || 500).json({ error: err.message });
+};
+
+// Route to get all future meals
+app.get('/future-meals', async (req, res, next) => {
+  try {
+    const now = new Date();
+    const futureMeals = await knex.raw('Meal').where('when', '>', now).select('*');
+    if (futureMeals.length === 0) return res.status(404).json({ message: 'No future meals found' });
+    res.json(futureMeals);
+  } catch (error) {
+    next(error); // Pass the error to the error handler
+  }
 });
 
-// This nested router example can also be replaced with your own sub-router
+// Route to get all past meals
+app.get('/past-meals', async (req, res, next) => {
+  try {
+    const now = new Date();
+    const pastMeals = await knex.raw('Meal').where('when', '<', now).select('*');
+    if (pastMeals.length === 0) return res.status(404).json({ message: 'No past meals found' });
+    res.json(pastMeals);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get all meals sorted by ID
+app.get('/all-meals', async (req, res, next) => {
+  try {
+    const allMeals = await knex.raw('Meal').orderBy('id').select('*');
+    if (allMeals.length === 0) return res.status(404).json({ message: 'No meals found' });
+    res.json(allMeals);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get the first meal 
+app.get('/first-meal', async (req, res, next) => {
+  try {
+    const firstMeal = await knex.raw('Meal').orderBy('id', 'asc').first();
+    if (!firstMeal) return res.status(404).json({ message: 'No first meal found' });
+    res.json(firstMeal);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get the last meal 
+app.get('/last-meal', async (req, res, next) => {
+  try {
+    const lastMeal = await knex.raw('Meal').orderBy('id', 'desc').first();
+    if (!lastMeal) return res.status(404).json({ message: 'No last meal found' });
+    res.json(lastMeal);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Nested routes (can be replaced with your own sub-router)
 apiRouter.use("/nested", nestedRouter);
 
+// Register the API router
 app.use("/api", apiRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`API listening on port ${process.env.PORT}`);
+// Error handler (must be defined after all routes)
+app.use(errorHandler);
+
+// Start the server
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`Server running on port ${process.env.PORT || 3001}`);
 });
