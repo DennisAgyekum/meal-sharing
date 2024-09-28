@@ -28,7 +28,7 @@ mealsRouter.post("/", async (req, res, next) => {
 mealsRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const meal = await knex("Meal").select("*").where("id", id);
+    const meal = await knex("Meal").where("id", id);
     if (meal.length === 0) {
       res.status(404).json({ message: "Meal not found" });
     } else {
