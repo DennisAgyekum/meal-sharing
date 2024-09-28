@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/reservations", reservationRouter);
-app.use("/api/meals", mealsRouter);
+app.use("/meals", mealsRouter);
 
 const apiRouter = express.Router();
 
