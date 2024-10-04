@@ -88,32 +88,19 @@ mealsRouter.get("/", async (request, response, next) => {
       sortKey,
       sortDir,
     } = request.query;
-    console.log(`maxPrice = ${maxPrice}`);
-    console.log(`title = ${title}`);
-    console.log(`limit = ${limit}`);
-    console.log(`dateafter = ${dateAfter}`);
-    console.log(`datebefore = ${dateBefore}`);
-    console.log(`availableReservation = ${availableReservations}`);
 
     if (maxPrice !== undefined) {
       query.where("price", "<", maxPrice);
     }
-    if (availableReservations !== undefined) {
-      if (availableReservations === "true") {
-        query
-          .leftJoin("reservation", "meal.id", "=", "reservation.meal_id")
-          .select("meal.id", "meal.max_reservations", "meal.title")
-          .sum("reservation.number_of_guests as sum_of_guests")
-          .groupBy("meal.id", "meal.max_reservations", "meal.title")
-          .having("sum_of_guests", "<", knex.ref("meal.max_reservations"));
-      } else {
-        query
-          .leftJoin("reservation", "meal.id", "=", "reservation.meal_id")
-          .select("meal.id", "meal.max_reservations", "meal.title")
-          .sum("reservation.number_of_guests as sum_of_guests")
-          .groupBy("meal.id", "meal.max_reservations", "meal.title")
-          .having("sum_of_guests", ">=", knex.ref("meal.max_reservations"));
-      }
+    if (req.query.availableReservations) {
+      const available = req.query.availableReservations === "true";
+      query = query
+        .leftJoin("reservation", "meal.id", "reservation.meal_id")
+        .groupBy("meal.id")
+        .select("meal.id", "meal.title", "meal.price", "meal.max_reservations")
+        .having(
+          `meal.max_reservations - COUNT(reservation.id) ${available ? ">" : "="} 0`
+        );
     }
     if (title !== undefined) {
       query.where("title", "like", `%${title}%`);
