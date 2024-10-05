@@ -77,7 +77,7 @@ mealsRouter.delete("/:id", async (req, res, next) => {
 mealsRouter.get("/", async (request, response, next) => {
   console.log("GET");
   try {
-    const query = db("Meals");
+    const query = db("Meal");
     const {
       maxPrice,
       availableReservations,
