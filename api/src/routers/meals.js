@@ -95,13 +95,16 @@ mealsRouter.get("/", async (request, response, next) => {
     if (req.query.availableReservations) {
       const available = req.query.availableReservations === "true";
       query = query
-        .leftJoin("reservation", "meal.id", "reservation.meal_id")
-        .groupBy("meal.id")
-        .select("meal.id", "meal.title", "meal.price", "meal.max_reservations")
+        .leftJoin("reservation", "Meal.id", "reservation.meal_id")
+        .groupBy("Meal.id")
+        .select("Meal.id", "Meal.title", "Meal.price", "Meal.max_reservations")
         .having(
-          `meal.max_reservations - COUNT(reservation.id) ${available ? ">" : "="} 0`
+           available
+            ? "meals.max_reservations > COUNT(reservations.id)"
+            : "meals.max_reservations <= COUNT(reservations.id)"
         );
     }
+    
     if (title !== undefined) {
       query.where("title", "like", `%${title}%`);
     }
