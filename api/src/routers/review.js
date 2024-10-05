@@ -36,6 +36,9 @@ reviewRouter.post("/", async (req, res, next) => {
   try {
     console.log(req.body);
     const data = req.body;
+     if(isNaN(data)){
+      return res.status(404).json({ message: "Body cannot be empty" });
+    }
     await knex("review").insert(data);
     res.status(200).json({ message: "created successfully" });
   } catch (error) {
