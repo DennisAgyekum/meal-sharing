@@ -99,6 +99,6 @@ app.use("/api", apiRouter);
 app.use(errorHandler);
 
 // Start the server
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`Server running on port ${process.env.PORT || 3001}`);
+app.listen(process.env.PORT || 5001, () => {
+  console.log(`Server running on port ${process.env.PORT || 5001}`);
 });
