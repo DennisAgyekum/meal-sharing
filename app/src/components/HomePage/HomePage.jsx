@@ -2,6 +2,7 @@ import React from "react";
 import MealsList from "../../frontend/components/MealsList"
 
 
+
 function HomePage() {
   return (
     <div>
