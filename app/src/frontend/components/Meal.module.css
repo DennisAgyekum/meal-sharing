@@ -1,60 +1,85 @@
 .meal-card {
-    background-color: #dfcece;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-
+  background-color: #dfcece;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 250px;
+}
 
 .meal-image {
-  width: 200px; 
+  width: 200px;
   height: 150px;
-  object-fit: cover; 
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 12px;
+  align-items: center;
 }
-  
-  .meal-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-  }
-  
-  .meal-description {
-    font-size: 1em;
-    color: #333;
-    margin: 8px 0;
-  }
-  
-  .meal-price {
-    font-size: 1.1em;
-    color: #008080;
-    font-weight: bold;
-  }
 
-  .meal-btn {
+.meal-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.meal-description {
+  font-size: 1em;
+  color: #333;
+  margin: 8px 0;
+}
+
+.meal-price {
+  font-size: 1.1em;
+  color: #008080;
+  font-weight: bold;
+}
+
+.meal-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.res-btn {
   padding: 10px 20px;
   font-size: 1em;
+  margin-top: 20px;
   font-weight: bold;
   color: #ffffff;
-  background-color: #008080; 
+  background-color: #008080;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);; 
-  }
-  
-  .meal-btn :hover {
-    background-color: #006666; 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
-  }
-  
-  .meal-btn :active {
-    background-color: #004d4d; 
-  transform: translateY(2px); 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.meal-btn :hover {
+  background-color: #006666;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.meal-btn :active {
+  background-color: #004d4d;
+  transform: translateY(2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  }
+}
+
+.meal-card--reservation {
+  background-color: #e3f2fd;
+  color: #b71c1c;
+  margin-left: 7rem;
+}
+
+.meal-card--home {
+  background-color: #e3f2fd;
+  color: #e65100;
+}
+
+.meal-card--all-meals {
+  background-color: #e3f2fd;
+  color: #e65100;
+}

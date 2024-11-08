@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: inherit; 
+  border: 1px solid red;
+  }
+
+  .content {
+    flex: 1;
+    
+  }
+  
