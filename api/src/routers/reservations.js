@@ -74,4 +74,26 @@ reservationRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
+// Route to check if a meal has available reservations
+reservationRouter.get("/check-availability/:mealId", async (req, res, next) => {
+  try {
+    const mealId = req.params.mealId;
+    const meal = await knex("Meal").where("id", mealId).first();
+    
+    if (!meal) {
+      return res.status(404).json({ message: "Meal not found" });
+    }
+
+    const totalReservations = await knex("Reservation")
+      .where("meal_id", mealId)
+      .sum("number_of_guests as total");
+
+    const availableReservations = meal.max_reservations - totalReservations[0].total;
+
+    res.json({ availableReservations });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default reservationRouter;

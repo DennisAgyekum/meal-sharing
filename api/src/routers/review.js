@@ -18,7 +18,7 @@ reviewRouter.post("/", async (req, res, next) => {
   try {
     console.log(req.body);
     const data = req.body;
-    await knex("review").insert(data);
+    await knex("Review").insert(data);
     res.status(200).json({ message: "created successfully" });
   } catch (error) {
     next(error);
