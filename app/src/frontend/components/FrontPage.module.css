@@ -1,0 +1,53 @@
+
+.home-container{
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+    color: #333;
+
+}
+.meals-preview {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .featured-meals-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .meals-grid {
+    display: flex;
+    justify-content: center;   
+    gap: 2rem;
+    justify-items: center;
+    margin-top: 1.5rem;
+    
+  }
+
+
+  .subtitle {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 2.5rem;
+   
+  }
+  
+  .explore-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #008080; 
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);; 
+    margin-top: 3rem;
+    font-size: 1rem;
+  }

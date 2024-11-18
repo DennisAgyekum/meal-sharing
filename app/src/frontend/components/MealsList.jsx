@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import Meal from "./Meal";
-import styles from "./mealsList.module.css";
+import styles from "./MealsList.module.css";
 
 function MealsList() {
   const [meals, setMeals] = useState([]);
@@ -12,7 +10,7 @@ function MealsList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/all-meals");
+        const response = await fetch("http://localhost:5001/all-meals/");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -39,16 +37,15 @@ function MealsList() {
 
   return (
     <>
-      <h1 className={styles["meals-h1"]}>Meal Sharing</h1>
-      <h2 className={styles["meals"]}> Meals</h2>
+      <h2 className={styles["meals"]}>Meals</h2>
       <div className={styles["meal-container"]}>
-      <div className={styles["meals-grid"]}>
-        {meals.length > 0 ? (
-          meals.map((meal, index) => <Meal key={index} meal={meal} />)
-        ) : (
-          <p>No meals available</p>
-        )}
-      </div>
+        <div className={styles["meals-grid"]}>
+          {meals.length > 0 ? (
+            meals.map((meal, id) => <Meal key={id} meal={meal} variant="all-meals"  />)
+          ) : (
+            <p>No meals available</p>
+          )}
+        </div>
       </div>
     </>
   );

@@ -2,6 +2,8 @@ html,
 body,
 #root {
   background: linear-gradient(to bottom right, #89cff0, #ffb6c1);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   margin: 0;
   padding: 0;
   height: 100%;
