@@ -13,33 +13,12 @@ reviewRouter.get("/", async (req, res, next) => {
   }
 });
 
-// router to get a review for a specific meal
-reviewRouter.get("/meal/:meal_id", async (req, res, next) => {
-  const { meal_id } = req.params;
-  try {
-    const reviews = await knex("review").where({ meal_id });
-
-    if (reviews.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No reviews found for this meal." });
-    }
-
-    res.json(reviews);
-  } catch (error) {
-    next(error);
-  }
-});
-
-//route to add a new Review
+//route to a new Review
 reviewRouter.post("/", async (req, res, next) => {
   try {
     console.log(req.body);
     const data = req.body;
-     if(isNaN(data)){
-      return res.status(404).json({ message: "Body cannot be empty" });
-    }
-    await knex("review").insert(data);
+    await knex("Review").insert(data);
     res.status(200).json({ message: "created successfully" });
   } catch (error) {
     next(error);
@@ -52,7 +31,7 @@ reviewRouter.get("/:id", async (req, res, next) => {
     const id = req.params.id;
     const result = await knex("review").where("id", id).first();
     if (!result) {
-      res.status(404).json({ message: "id not found" });
+      res.json({ message: "Review not found" });
     } else {
       res.json(result);
     }
@@ -70,7 +49,6 @@ reviewRouter.put("/:id", async (req, res, next) => {
 
     if (result) {
       res.status(200).json({ message: "Review updated successfully" });
-       res.json(result);
     } else {
       res.status(404).json({ message: "Review not found" });
     }
