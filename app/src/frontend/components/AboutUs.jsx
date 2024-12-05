@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import styles from "./AboutPage.module.css";
 
@@ -14,26 +12,30 @@ function AboutPage() {
         <section className={styles["section"]}>
           <h2>Our Mission</h2>
           <p>
-            Meal Sharing connects people around the world through delicious, homemade meals.
-            We believe in the power of food to bring people together and create unforgettable experiences.
+            Meal Sharing connects people through delicious, homemade meals
+            crafted by our restaurant. We believe in the power of food to bring
+            people together and create unforgettable experiences.
           </p>
         </section>
 
         <section className={styles["section"]}>
           <h2>How It Works</h2>
           <p>
-            Hosts prepare meals and open their homes to guests, offering a unique dining experience
-            and a chance to connect with others. Guests can browse meals, make reservations, and
-            enjoy the flavors and cultures of the world, right at the host’s table.
+            Our restaurant prepares fresh, flavorful meals inspired by global
+            cuisines and offers them in a warm, inviting setting. Guests can
+            browse our menu, make reservations, and enjoy the essence of
+            different cultures and flavors—all brought to life by our dedicated
+            chefs and team.
           </p>
         </section>
 
         <section className={styles["section"]}>
           <h2>Our Story</h2>
           <p>
-            Meal Sharing started as a passion project among friends who loved cooking and meeting
-            new people. What began as a small gathering has grown into a global community of food
-            lovers, cultural explorers, and kindred spirits sharing meals together.
+            Meal Sharing began as a simple idea: to unite people over food. What
+            started as a small, community-focused dining concept has grown into
+            a welcoming restaurant that celebrates culinary diversity, cultural
+            exchange, and meaningful connections around the table.
           </p>
         </section>
       </main>

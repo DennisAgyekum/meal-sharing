@@ -7,6 +7,10 @@ import FrontPage from "./frontend/components/FrontPage.jsx";
 import AboutPage from "./frontend/components/AboutUs.jsx";
 import Reservation from "./frontend/components/reservation.jsx";
 import ReviewForm from "./frontend/components/reviewForms.jsx";
+import PostMealPage from "./frontend/components/PostMealPage.jsx";
+import ViewReservationsPage from "./frontend/components/ViewReservationsPage.jsx";
+import ManageMeals from "./frontend/components/ManageMealsPage.jsx";
+import UpdateMealForm from "./frontend/components/UpdateMealForm.jsx";
 import Layout from "./LayOut";
 import "./main.css";
 
@@ -36,6 +40,16 @@ const router = createBrowserRouter([
       </Layout>
     ),
   },
+
+  {
+    path: "/post-meal",
+    element: (
+      <Layout>
+       <PostMealPage />
+      </Layout>
+    ),
+  },
+
   {
     path: "/reviews/:id",
     element: (
@@ -53,11 +67,39 @@ const router = createBrowserRouter([
       </Layout>
     ),
   },
+
+   {
+    path: "/manage-meals",
+    element: (
+      <Layout>
+        <ManageMeals />
+      </Layout>
+    ),
+  },
+   
+  {
+    path: "/view-reservations",
+    element: (
+      <Layout>
+        <ViewReservationsPage />
+      </Layout>
+    ),
+  },
+
   {
     path: "/nested",
     element: (
       <Layout>
         <TestPage />
+      </Layout>
+    ),
+  },
+
+  {
+    path: "/update-meal/:id",
+    element: (
+      <Layout>
+       <UpdateMealForm />
       </Layout>
     ),
   },

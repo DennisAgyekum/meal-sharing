@@ -1,20 +1,28 @@
 .meal-card {
-  background-color: #dfcece;
+  background-color: whitesmoke;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 250px;
+  
 }
 
-.meal-image {
-  width: 200px;
+.mealImage {
+  width: 100%;
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 12px;
-  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mealCard {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .meal-title {
@@ -49,7 +57,7 @@
   margin-top: 20px;
   font-weight: bold;
   color: #ffffff;
-  background-color: #008080;
+  background-color: #3498db;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -58,28 +66,27 @@
 }
 
 .meal-btn :hover {
-  background-color: #006666;
+  background-color: #2980b9;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .meal-btn :active {
-  background-color: #004d4d;
+  background-color: #3498db;
   transform: translateY(2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.meal-card--reservation {
-  background-color: #e3f2fd;
-  color: #b71c1c;
-  margin-left: 7rem;
+.delete-btn {
+  background-color: #e74c3c; 
+  color: #ffffff;
 }
 
-.meal-card--home {
-  background-color: #e3f2fd;
-  color: #e65100;
+.delete-btn:hover {
+  background-color: #c0392b; 
 }
 
-.meal-card--all-meals {
-  background-color: #e3f2fd;
-  color: #e65100;
+.delete-btn:active {
+  background-color: #e74c3c; 
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }

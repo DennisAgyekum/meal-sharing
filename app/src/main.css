@@ -1,7 +1,7 @@
 html,
 body,
 #root {
-  background: linear-gradient(to bottom right, #89cff0, #ffb6c1);
+  background: rgb(182, 225, 232);
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 0;

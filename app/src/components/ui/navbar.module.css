@@ -1,49 +1,32 @@
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color:#007373 ;
-    padding: 1rem 2rem;
-    color: rgb(3, 3, 3);
-    }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(193, 191, 191, 0.374);
+  padding: 1rem 2rem;
+  color: rgb(6, 0, 0);
+}
 
-  .title {
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 2rem;
-    padding-left: 10rem;
-  }
-  
-  .title::before {
-    content: "🍴 ";
-    display: inline-block;
-    margin-right: 8px;
-  }
-  
-  .title::after {
-    content: " 🍴";
-    display: inline-block;
-    margin-left: 8px;
-  }
 
-  .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  }
-  
-  .navLinks {
+.logo {
+  width: 60px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.navLinks {
   display: flex;
   gap: 1rem;
   list-style: none;
-  }
-  
-  .navLinks a {
-  color: rgb(7, 6, 6);
+}
+
+.navLinks a {
+  color: rgb(6, 0, 0);
   text-decoration: none;
   position: relative;
-  }
-  
-  .navLinks a::after {
+}
+
+.navLinks a::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -54,17 +37,41 @@
   visibility: hidden;
   transform: scaleX(0);
   transition: all 0.3s ease-in-out;
-  }
-  
-  .navLinks a:hover::after {
+}
+
+.navLinks a:hover::after {
   visibility: visible;
   transform: scaleX(1);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
   }
 
+  .title {
+    padding-left: 0;
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
 
+  .navLinks {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
 
-.logo {
-  width: 60px; 
-  height: auto;
-  border-radius: 50%;
+  .navLinks a {
+    text-align: left;
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .logo {
+    align-self: center;
+    margin-bottom: 1rem;
+  }
 }
