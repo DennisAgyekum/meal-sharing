@@ -5,8 +5,12 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  
+    
+  }
 
+  .mealCard{
+    align-items: center;
+    padding-left: 7rem;
   }
   
   h2 {
@@ -39,7 +43,7 @@
   }
   
   .reservationForm button {
-    background-color: #006666;
+    background-color: #3498db;
     color: white;
     border: none;
     padding: 0.75rem;
@@ -48,5 +52,5 @@
   }
   
   .reservationForm button:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
   }

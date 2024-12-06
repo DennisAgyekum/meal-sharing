@@ -1,9 +1,9 @@
 
 .footerContainer {
-  min-height: 100vh;
+  min-height: 10vh;
   position: relative;
   padding-bottom: 3rem; 
-
+ 
 }
 
 
@@ -11,8 +11,8 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: #007373;
-  color: white;
+  background-color:rgba(193, 191, 191, 0.374);
+  color: rgb(1, 0, 0);
   padding: 1rem;
   text-align: center;
   font-size: 0.9rem;
@@ -28,7 +28,7 @@
 }
 
 .footerLinks a {
-  color: white;
+  color: rgb(3, 0, 0);
   text-decoration: none;
 }
 

@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -7,6 +8,8 @@ import nestedRouter from "./routers/nested.js";
 import reservationRouter from "./routers/reservations.js";
 import mealsRouter from "./routers/meals.js";
 import reviewRouter from "./routers/review.js";
+
+
 
 const app = express();
 app.use(cors());
@@ -63,6 +66,19 @@ app.get("/all-meals", async (_req, res, next) => {
   }
 });
 
+
+//manage meals
+
+app.get("/manage-meals", async (_req, res, next) => {
+  try {
+    const allMeals = await knex("Meal").select("*").orderBy("id");
+    res.json(allMeals);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 app.get('/meals/:id', async (req, res, next) => {
   try {
     const mealId = req.params.id;
@@ -104,23 +120,6 @@ app.get("/last-meal", async (_req, res, next) => {
 });
 
 
-app.post("/reservation", async (req, res, next) => {
-  try {
-    const { name, contact_email, meal_id, number_of_guests } = req.body;
-    const newReservation = {
-      name,
-      contact_email,
-      meal_id,
-      number_of_guests,
-      created_date: new Date()
-    };
-    const insertedReservation = await knex("Reservation").insert(newReservation).returning("*");
-    res.status(201).json(insertedReservation);
-  } catch (error) {
-    next(error);
-  }
-});
-
 app.get("/check-availability/:mealId", async (req, res, next) => {
   try {
     const mealId = req.params.mealId;
@@ -143,18 +142,39 @@ app.get("/check-availability/:mealId", async (req, res, next) => {
 });
 
 
-// Route to create a new reservation
-app.post("/reservation", async (req, res, next) => {
+app.post("/reservation", async (req, res) => {
   try {
-    const { name, contact_email, meal_id, number_of_guests } = req.body;
+    const { meal_id, number_of_guests } = req.body;
+
+    const meal = await knex("Meal").where({ id: meal_id }).first();
+    if (!meal) {
+      return res.status(404).json({ message: "Meal not found" });
+    }
+
+    const { max_reservation } = meal;
+
+    const currentReservations = await knex("Reservation")
+      .where({ meal_id })
+      .sum("number_of_guests as total_reserved");
+
+    const totalReserved = currentReservations[0].total_reserved || 0;
+    const availableSpots = max_reservation - totalReserved;
+    if (number_of_guests > availableSpots) {
+      return res.status(400).json({
+        message: `Only ${availableSpots} spots left for this meal. Please adjust the number of guests.`,
+      });
+    }
+
+    const { phonenumber, name, contact_email } = req.body;
     const newReservation = {
       number_of_guests,
       meal_id,
       phonenumber,
       name,
       contact_email,
-      created_date: new Date()
+      created_date
     };
+
     const insertedReservation = await knex("Reservation").insert(newReservation).returning("*");
     res.status(201).json(insertedReservation);
   } catch (error) {
@@ -180,6 +200,125 @@ app.post("/reviews/post", async (req, res) => {
 });
 
 
+// Route to add a new meal
+app.post("/meals", async (req, res, next) => {
+  try {
+    const { title, description, location, when, max_reservations, price, image_url } = req.body;
+
+    if (!title || !when || !price) {
+      return res.status(400).json({ error: "Title, when, and price are required fields." });
+    }
+
+    const newMeal = {
+      title,
+      description: description || null, 
+      location: location || null,     
+      when,
+      max_reservations: max_reservations || null, 
+      price,
+      image_url: image_url || null,
+      created_date,
+    };
+
+    const insertedMeal = await knex("Meal").insert(newMeal).returning("*");
+
+    res.status(201).json(insertedMeal);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+// Update a meal
+app.put("/meals/:id", async (req, res) => {
+  try {
+    const { title, description, image_url, location, when, max_reservations, price } = req.body;
+    if (!title || !when || !price) {
+      return res.status(400).json({ error: "Title, date, and price are required." });
+    }
+    const updates = {
+      title,
+      description,
+      image_url,
+      location,
+      when,
+      max_reservations: max_reservations ? Number(max_reservations) : null,
+      price: price ? Number(price) : null,
+    };
+    for (const key in updates) {
+      if (updates[key] === undefined || updates[key] === null) {
+        delete updates[key];
+      }
+    }
+    const updatedRows = await knex("Meal")
+      .where({ id: req.params.id })
+      .update(updates);
+
+    if (updatedRows === 0) {
+      return res.status(404).json({ error: "Meal not found." });
+    }
+
+    res.json({ message: "Meal updated successfully!" });
+  } catch (err) {
+    console.error("Error updating meal:", err);
+    res.status(500).json({ error: "Failed to update meal." });
+  }
+});
+
+
+// Delete a meal
+app.delete("/meals/:id", async (req, res, next) => {
+  try {
+    const mealId = parseInt(req.params.id, 10);
+
+    if (isNaN(mealId)) {
+      return res.status(400).json({ message: "Invalid meal ID" });
+    }
+
+    const meal = await knex("Meal").where({ id: mealId }).first();
+    if (!meal) {
+      return res.status(404).json({ message: "Meal not found" });
+    }
+
+    await knex("Meal").where({ id: mealId }).del();
+
+    res.status(204).send(); 
+  } catch (error) {
+    if (error.code === "ER_ROW_IS_REFERENCED_2") {
+      return res.status(409).json({ message: "Cannot delete meal; it is referenced elsewhere." });
+    }
+    next(error);
+  }
+});
+
+
+// Route to fetch reservations
+app.get("/view-reservations", async (req, res) => {
+  const { sort = "asc" } = req.query; // Default to ascending order
+  try {
+    const reservations = await knex("Reservation")
+      .join("Meal", "Reservation.meal_id", "Meal.id")
+      .select(
+        "Reservation.id",
+        "Reservation.number_of_guests",
+        "Reservation.contact_name",
+        "Reservation.contact_email",
+        "Reservation.contact_phonenumber",
+        "Reservation.created_date",
+        "Meal.title as meal_title",
+        "Reservation.meal_id"
+      )
+      .orderBy("Reservation.meal_id", sort); // Apply sort order from query
+
+    res.json(reservations);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Failed to fetch reservations." });
+  }
+});
+
+
+
 // Nested routes (can be replaced with your own sub-router)
 apiRouter.use("/nested", nestedRouter);
 
@@ -193,4 +332,3 @@ app.use(errorHandler);
 app.listen(process.env.PORT || 5001, () => {
   console.log(`Server running on port ${process.env.PORT || 5001}`);
 });
-
